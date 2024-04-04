@@ -50,6 +50,18 @@ body {
   border: 1px solid #888;
   width: 80%;
   max-width: 500px;
+  button {
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    &:hover {
+      background-color: #45a049;
+    }
+  }
+  
 }
 
 .close {
@@ -120,6 +132,8 @@ body {
   background-color: #45a049;
 }
 
+
+
 /* Toggle switches */
 .switch {
   position: relative;
@@ -185,15 +199,15 @@ body {
 }
 
 .purple {
-  color: purple;
+  color: rgb(137, 6, 137);
 }
 
 .orange {
-  color: orange;
+  color: rgb(242, 163, 17);
 }
 
 .green {
-  color: green;
+  color: rgb(9, 150, 9);
 }
 
 /* ==============================Font============================== */

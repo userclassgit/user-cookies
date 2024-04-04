@@ -19,8 +19,10 @@ const savePreferencesButton = utils.select(".save-preferences");
 utils.listen('click', btnAccept, function() {
   modal.style.display = "none";
   setCookie('consent', 'true', 15);
-  setCookie('browser', getBrowserName(), 15);
-  setCookie('os', getOSName(), 15);
+  setCookie('Browser', getBrowserName(), 15);
+  setCookie('OS', getOSName(), 15);
+  setCookie('Width', window.innerWidth + 'px', 15);
+  setCookie('Height', window.innerHeight + 'px', 15);
 });
 
 
@@ -39,7 +41,8 @@ window.onload = function() {
   }
 
   const consent = getCookie('consent');
-  if (consent) {
+
+  if (consent === 'true' || consent === 'false') {
     console.log(document.cookie);
     return;
   }
@@ -47,29 +50,85 @@ window.onload = function() {
   setTimeout(function() {
     modal.style.display = "block";
   }, 1000);
+
+  browserSwitch.checked = true;
+  osSwitch.checked = true;
+  widthSwitch.checked = true;
+  heightSwitch.checked = true;
+
+  console.log(consent);
 }
 
 
 // Second modal
 utils.listen('change', browserSwitch, function() {
-  setCookie('storeBrowser', this.checked, 15);
+  if (this.checked) {
+    setCookie('Browser', getBrowserName(), 15);
+  } else {
+    setCookie('Browser', '', -1);
+  }
 });
 
 utils.listen('change', osSwitch, function() {
-  setCookie('storeOS', this.checked, 15);
+  if (this.checked) {
+    setCookie('OS', getOSName(), 15);
+  } else {
+    setCookie('OS', '', -1);
+  }
 });
 
 utils.listen('change', widthSwitch, function() {
-  setCookie('storeWidth', this.checked, 15);
+  if (this.checked) {
+    setCookie('Width', window.innerWidth + 'px', 15);
+  } else {
+    setCookie('Width', '', -1);
+  }
 });
 
 utils.listen('change', heightSwitch, function() {
-  setCookie('storeHeight', this.checked, 15);
+  if (this.checked) {
+    setCookie('Height', window.innerHeight + 'px', 15);
+  } else {
+    setCookie('Height', '', -1);
+  }
 });
 
 
 utils.listen('click', savePreferencesButton, function() {
 
+  if (browserSwitch.checked) {
+    setCookie('Browser', getBrowserName(), 15);
+  } else {
+    setCookie('Browser', '', -1);
+  }
+
+  if (osSwitch.checked) {
+    setCookie('OS', getOSName(), 15);
+  } else {
+    setCookie('OS', '', -1);
+  }
+
+  if (widthSwitch.checked) {
+    setCookie('Width', window.innerWidth + 'px', 15);
+  } else {
+    setCookie('Width', '', -1);
+  }
+
+  if (heightSwitch.checked) {
+    setCookie('Height', window.innerHeight + 'px', 15);
+  } else {
+    setCookie('Height', '', -1);
+  }
+
+
+  if (browserSwitch.checked || osSwitch.checked || widthSwitch.checked || heightSwitch.checked) {
+    setCookie('consent', 'true', 15);
+  } else {
+    setCookie('consent', 'false', 15);
+  }
+
+  console.log(document.cookie);
+  settingsModal.style.display = "none";
 });
 
 
@@ -105,10 +164,6 @@ function getOSName() {
 
 
 
-
-
-
-
 function setCookie(name, value, maxAge) {
   const options = {
     Path: '/',
@@ -132,5 +187,5 @@ function setCookie(name, value, maxAge) {
 function getCookie(name) {
   const regex = new RegExp('(^|;\\s*)' + encodeURIComponent(name) + '=([^;]*)');
   const match = document.cookie.match(regex);
-  return match ? decodeURIComponent(match[2]) : null;
+  return match ? decodeURIComponent(match[2]) : "The user hasn't made a decision about cookies";
 }
