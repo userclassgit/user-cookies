@@ -65,9 +65,60 @@ body {
   cursor: pointer;
 }
 
+/* Second modal */
+.settings-modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  background-color: rgba(0,0,0,0.4);
+}
 
+.settings-modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: gray;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+}
 
+.settings-modal .toggle-switch {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
 
+.settings-modal .toggle-switch label {
+  margin-right: 10px;
+}
+
+.settings-modal .toggle-switch input {
+  cursor: pointer;
+}
+
+.save-preferences {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.save-preferences:hover {
+  background-color: #45a049;
+}
 
 
 

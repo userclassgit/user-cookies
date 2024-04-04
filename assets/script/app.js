@@ -5,8 +5,14 @@ const modal = utils.select(".modal");
 const btnAccept = utils.select(".accept");
 const btnSettings = utils.select(".settings");
 const span = utils.select(".close");
-const btnReject = utils.select(".reject");
 const settingsModal = utils.select(".settings-modal");
+
+const browserSwitch = utils.select(".browser-switch");
+const osSwitch = utils.select(".os-switch");
+const widthSwitch = utils.select(".width-switch");
+const heightSwitch = utils.select(".height-switch");
+const savePreferencesButton = utils.select(".save-preferences");
+
 
 utils.listen('click', btnAccept, function() {
   modal.style.display = "none";
@@ -14,13 +20,15 @@ utils.listen('click', btnAccept, function() {
   setCookie('browser', getBrowserName(), 15);
   setCookie('os', getOSName(), 15);
 });
-utils.listen('click', btnReject, function() {
-  setCookie('consent', 'false', 15);
-  modal.style.display = "none";
-});
+
 
 utils.listen('click', span, function() {
   modal.style.display = "none";
+});
+
+utils.listen('click', btnSettings, function() {
+  modal.style.display = "none";
+  settingsModal.style.display = "block";
 });
 
 window.onload = function() {
@@ -40,9 +48,31 @@ window.onload = function() {
 }
 
 
+// Second modal
 
+utils.listen('change', browserSwitch, function() {
+  setCookie('storeBrowser', this.checked, 15);
+});
 
-modal.style.display = "block";
+utils.listen('change', osSwitch, function() {
+  setCookie('storeOS', this.checked, 15);
+});
+
+utils.listen('change', widthSwitch, function() {
+  setCookie('storeWidth', this.checked, 15);
+});
+
+utils.listen('change', heightSwitch, function() {
+  setCookie('storeHeight', this.checked, 15);
+});
+
+utils.listen('click', savePreferencesButton, function() {
+  setCookie('storeBrowser', browserSwitch.checked, 15);
+  setCookie('storeOS', osSwitch.checked, 15);
+  setCookie('storeWidth', widthSwitch.checked, 15);
+  setCookie('storeHeight', heightSwitch.checked, 15);
+});
+
 
 function getBrowserName() {
   let userAgent = navigator.userAgent;
