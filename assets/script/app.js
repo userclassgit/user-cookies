@@ -7,10 +7,12 @@ const btnSettings = utils.select(".settings");
 const span = utils.select(".close");
 const settingsModal = utils.select(".settings-modal");
 
+
 const browserSwitch = utils.select(".browser-switch");
 const osSwitch = utils.select(".os-switch");
 const widthSwitch = utils.select(".width-switch");
 const heightSwitch = utils.select(".height-switch");
+
 const savePreferencesButton = utils.select(".save-preferences");
 
 
@@ -49,7 +51,6 @@ window.onload = function() {
 
 
 // Second modal
-
 utils.listen('change', browserSwitch, function() {
   setCookie('storeBrowser', this.checked, 15);
 });
@@ -66,11 +67,9 @@ utils.listen('change', heightSwitch, function() {
   setCookie('storeHeight', this.checked, 15);
 });
 
+
 utils.listen('click', savePreferencesButton, function() {
-  setCookie('storeBrowser', browserSwitch.checked, 15);
-  setCookie('storeOS', osSwitch.checked, 15);
-  setCookie('storeWidth', widthSwitch.checked, 15);
-  setCookie('storeHeight', heightSwitch.checked, 15);
+
 });
 
 
