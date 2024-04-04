@@ -23,6 +23,7 @@ utils.listen('click', btnAccept, function() {
   setCookie('OS', getOSName(), 15);
   setCookie('Width', window.innerWidth + 'px', 15);
   setCookie('Height', window.innerHeight + 'px', 15);
+  console.log(document.cookie);
 });
 
 
@@ -94,32 +95,19 @@ utils.listen('change', heightSwitch, function() {
 });
 
 
+function setOrDeleteCookie(switchElement, cookieName, getValueFunction) {
+  if (switchElement.checked) {
+    setCookie(cookieName, getValueFunction(), 15);
+  } else {
+    setCookie(cookieName, '', -1);
+  }
+}
+
 utils.listen('click', savePreferencesButton, function() {
-
-  if (browserSwitch.checked) {
-    setCookie('Browser', getBrowserName(), 15);
-  } else {
-    setCookie('Browser', '', -1);
-  }
-
-  if (osSwitch.checked) {
-    setCookie('OS', getOSName(), 15);
-  } else {
-    setCookie('OS', '', -1);
-  }
-
-  if (widthSwitch.checked) {
-    setCookie('Width', window.innerWidth + 'px', 15);
-  } else {
-    setCookie('Width', '', -1);
-  }
-
-  if (heightSwitch.checked) {
-    setCookie('Height', window.innerHeight + 'px', 15);
-  } else {
-    setCookie('Height', '', -1);
-  }
-
+  setOrDeleteCookie(browserSwitch, 'Browser', getBrowserName);
+  setOrDeleteCookie(osSwitch, 'OS', getOSName);
+  setOrDeleteCookie(widthSwitch, 'Width', () => window.innerWidth + 'px');
+  setOrDeleteCookie(heightSwitch, 'Height', () => window.innerHeight + 'px');
 
   if (browserSwitch.checked || osSwitch.checked || widthSwitch.checked || heightSwitch.checked) {
     setCookie('consent', 'true', 15);
@@ -133,23 +121,23 @@ utils.listen('click', savePreferencesButton, function() {
 
 
 function getBrowserName() {
-  let userAgent = navigator.userAgent;
-  
-  if (userAgent.indexOf("Firefox") > -1) {
-    return "Firefox";
-  } else if (userAgent.indexOf("Opera") > -1 || userAgent.indexOf("OPR") > -1) {
-    return "Opera";
-  } else if (userAgent.indexOf("Trident") > -1) {
-    return "Internet Explorer";
-  } else if (userAgent.indexOf("Edge") > -1) {
-    return "Edge";
-  } else if (userAgent.indexOf("Chrome") > -1) {
-    return "Chrome";
-  } else if (userAgent.indexOf("Safari") > -1) {
-    return "Safari";
-  } else {
-    return "Unknown";
-  }
+  const browsers = [
+    { name: "Firefox", identifier: "Firefox" },
+    { name: "Opera", identifier: ["Opera", "OPR"] },
+    { name: "Internet Explorer", identifier: "Trident" },
+    { name: "Edge", identifier: "Edge" },
+    { name: "Chrome", identifier: "Chrome" },
+    { name: "Safari", identifier: "Safari" }
+  ];
+
+  const userAgent = navigator.userAgent;
+  const browser = browsers.find(b => 
+    Array.isArray(b.identifier) 
+      ? b.identifier.some(id => userAgent.indexOf(id) > -1) 
+      : userAgent.indexOf(b.identifier) > -1
+  );
+
+  return browser ? browser.name : "Unknown";
 }
 
 
